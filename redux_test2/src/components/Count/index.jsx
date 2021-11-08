@@ -1,0 +1,47 @@
+import React, { Component } from 'react'
+import store from '../../redux/store'
+import {createIncreamentAction, createDecreamentAction} from '../../redux/count_action'
+
+export default class Count extends Component {
+    state = {field1: "filename"};
+
+    increment = ()=>{
+        const {value} = this.selectNumber
+        store.dispatch(createIncreamentAction(value*1))
+    }
+
+    decrement = ()=>{
+        const {value} = this.selectNumber
+        store.dispatch(createDecreamentAction(value*1))
+    }
+
+    incrementIfOdd = ()=>{
+        const {value} = this.selectNumber
+        const count = store.getState();
+        if (count %2 !== 0)
+        store.dispatch(createIncreamentAction(value*1))
+    }
+    incrementAsync = () =>{
+        const {value} = this.selectNumber;
+        setTimeout(()=>{
+            store.dispatch(createIncreamentAction(value*1))
+        }, 500)
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>current sum value is: {store.getState()}</h3>
+                <select ref={c=>this.selectNumber = c}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>&nbsp;
+                <button onClick={this.increment}>+</button>&nbsp;
+                <button onClick={this.decrement}>-</button>&nbsp;
+                <button onClick={this.incrementIfOdd}>incrementIfOdd</button>&nbsp;
+                <button onClick={this.incrementAsync}>incrementAsync</button>&nbsp;
+            </div>
+        )
+    }
+}
